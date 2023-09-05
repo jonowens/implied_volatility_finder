@@ -19,47 +19,47 @@ class alpaca_trading_connection:
     def __init__(self):
         self.alpaca_api = tradeapi.REST(key, secret_key, paper_url, api_version='v2')
 
-    def get_account_info(self):
-        res = self.alpaca_api.get_account()
+    def get_account_info(name):
+        res = name.alpaca_api.get_account()
         return res
 
-    def get_asset_price(self, symbol):
-        data = self.alpaca_api.get_last_trade(symbol)
+    def get_asset_price(name, symbol):
+        data = name.alpaca_api.get_last_trade(symbol)
         return data.price
 
-    def get_asset_history(self, symbol, timeframe, num_intervals, starting_date, ending_date):        
+    def get_asset_history(name, symbol, timeframe, num_intervals, starting_date, ending_date):        
         
         # Format date range of historical data
         start_date = pd.Timestamp(starting_date, tz="America/New_York").isoformat()
         end_date = pd.Timestamp(ending_date, tz="America/New_York").isoformat()
 
         # Get historical data
-        hist_data = self.alpaca_api.get_barset(symbol, timeframe, num_intervals, start=start_date, end=end_date)
+        hist_data = name.alpaca_api.get_bars(symbol, timeframe, num_intervals, start=start_date, end=end_date)
         
         # Return data
         return hist_data
 
-    def place_buy_order(self, symbol, quantity):
-        order_res = self.alpaca_api.submit_order(symbol, quantity, 'buy', type='market', time_in_force='fok')
+    def place_buy_order(name, symbol, quantity):
+        order_res = name.alpaca_api.submit_order(symbol, quantity, 'buy', type='market', time_in_force='fok')
         return order_res
 
-    def place_sell_order(self, symbol, quantity):
-        order_res = self.alpaca_api.submit_order(symbol, quantity, 'sell', type='market', time_in_force='fok')
+    def place_sell_order(name, symbol, quantity):
+        order_res = name.alpaca_api.submit_order(symbol, quantity, 'sell', type='market', time_in_force='fok')
         return order_res
 
-    def close_all_positions(self):
-        close_all_pos_res = self.alpaca_api.close_all_positions()
+    def close_all_positions(name):
+        close_all_pos_res = name.alpaca_api.close_all_positions()
         return close_all_pos_res
 
-    def get_positions(self):
-        pos_res = self.alpaca_api.list_positions()
+    def get_positions(name):
+        pos_res = name.alpaca_api.list_positions()
         return pos_res
 
     # Create and submit buy order and include One Cancels Other (OTO) configuration
-    def place_buy_otoco_order(self, symbol, quantity, desired_profit_percent: int=2, max_loss_percent: int=1):
+    def place_buy_otoco_order(name, symbol, quantity, desired_profit_percent: int=2, max_loss_percent: int=1):
 
         # Get current asset price
-        current_price = self.get_asset_price(symbol)
+        current_price = name.get_asset_price(symbol)
         
         # Determine profit limit based on passed parameter
         profit_price = current_price * (1 + (desired_profit_percent / 100))
@@ -77,7 +77,7 @@ class alpaca_trading_connection:
         }
         
         # Submit trade
-        order_res = self.alpaca_api.submit_order(
+        order_res = name.alpaca_api.submit_order(
             symbol,
             quantity,
             side='buy',
@@ -89,10 +89,10 @@ class alpaca_trading_connection:
         
         return order_res
 
-    def get_all_assets_to_trade(self):
+    def get_all_assets_to_trade(name):
         
         # Get all available assets from Alpaca
-        active_assets = self.alpaca_api.list_assets(status='active')
+        active_assets = name.alpaca_api.list_assets(status='active')
 
         # Return assets
         return active_assets
