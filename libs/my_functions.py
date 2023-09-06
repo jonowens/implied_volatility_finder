@@ -1,7 +1,6 @@
 # Functions used in algorithmic trading
 
 # Imports
-from asyncio.windows_events import NULL
 from datetime import date
 from email.policy import default
 import os
@@ -82,6 +81,9 @@ def calculate_volatility(df, symbols, start_date, end_date):
     Args:
         df (df): Asset dataframe containing ticker symbol(s) key and
         column heading: 'close'
+        symbols (list): A list of symbols to calculate.
+        start_date (str): Start date for data range (must be in format 'YYYY-MM-DD')
+        end_date (str): End date for data range (must be in format 'YYYY-MM-DD')
     Returns:
         Dataframe of symbols and calculated volatility (standard deviation)
     '''
