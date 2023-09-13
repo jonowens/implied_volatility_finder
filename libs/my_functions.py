@@ -3,6 +3,7 @@
 # Imports
 from datetime import date
 from email.policy import default
+from polygon import RESTClient
 import os
 from dotenv import load_dotenv
 import pandas as pd
@@ -44,6 +45,26 @@ def initialize_alpaca_markets_connections():
         alpaca_market_data_url,
         api_version = "v2"
     )
+
+    return api
+
+# Connect to Polygon API
+
+def initialize_polygon_connections():
+    '''Initialize Polygon Connections
+        Loads the security keys from .env file and creates the REST API connections to Polygon
+    Returns:
+        Polygon REST api connection
+    '''
+    
+    ### Load .env enviroment variables
+    load_dotenv()
+
+    # Set Polygon API key
+    polygon_api_key = os.getenv("POLYGON_API_KEY")
+
+    # Create the Alpaca API object
+    api = RESTClient(api_key=polygon_api_key)
 
     return api
 
