@@ -105,8 +105,8 @@ class Polygon_Markets:
     # Get Polygon Markets stock data API
     def get_stock_data(tkr='AAPL', mltplir=1, tspn='day', st='2021-01-25', et='2022-05-13', lmt=50000):
         '''Get Stock Data
-            Makes a call to Polygon Markets for specified symbol(s) 'open', 'high', 'low',
-            'close', 'volume', 'vwap'. Initializes with Alpaca Markets.
+            Makes a call to Polygon Markets for specified symbol. 'open', 'high', 'low',
+            'close', 'volume', 'vwap'. Initializes with Polygon Markets.
         Args:
             tkr (str): Ticker symbol to request data (one symbol only)
             mltplir (dec): The size of the timespan multiplier
@@ -129,6 +129,37 @@ class Polygon_Markets:
         result_df = pd.DataFrame(aggs)
 
         return result_df
+    
+    # Get Polygon Markets options data API
+    def get_options_data(tkr='AAPL', 
+                         expr_date_gte='2023-09-15', 
+                         expr_date_lte='2024-09-15', strike_gte=10, strike_lte=30):
+        '''Get Options Data
+            Makes a call to Polygon Markets for specified symbol. 'open', 'high', 'low',
+            'close', 'volume', 'vwap'. Initializes with Polygon Markets.
+        Args:
+            tkr (str): Ticker symbol to request data (one symbol only)
+            expr_date_gte (str): Expiration date greater than or equal to specified
+            strike_gte (dec): Strike price greater than or equal to specified
+            strike_lte (dec): Strike price less than or equal to specified
+        Returns:
+            Dataframe of stock data.
+        '''
+        # Initialize connection to Polygon Markets
+        api = Polygon_Markets.initialize_polygon_connections()
+
+        options_chain = []
+        for o in api.list_snapshot_options_chain(tkr, 
+            params={
+                "expiration_date.gte": expr_date_gte,
+                "expiration_date.lte": expr_date_lte,
+                "strike_price.gte": strike_gte,
+                "strike_price.lte": strike_lte,
+            },
+        ):
+            options_chain.append(o)
+
+        return options_chain
 
 def calculate_volatility(df, symbols, start_date, end_date):
     '''Calculate Volatility
