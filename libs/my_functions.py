@@ -22,80 +22,113 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(format='%(asctime)s %(message)s', filename='./exceptions.log', level=logging.INFO)
 
 # Connect to Alpaca Markets API
+class Alpaca_Markets:
+    def __init__(self) -> None:
+        pass
 
-def initialize_alpaca_markets_connections():
-    '''Initialize Alpaca Markets Connections
-        Loads the security keys from .env file and creates the REST API connections to Alpaca Markets
-    Returns:
-        Alpca Markets REST api connection
-    '''
-    
-    ### Load .env enviroment variables
-    load_dotenv()
+    def initialize_alpaca_markets_connections():
+        '''Initialize Alpaca Markets Connections
+            Loads the security keys from .env file and creates the REST API connections to Alpaca Markets
+        Returns:
+            Alpca Markets REST api connection
+        '''
+        
+        ### Load .env enviroment variables
+        load_dotenv()
 
-    # Set Alpaca API key and secret
-    alpaca_api_key = os.getenv("APCA_API_KEY_ID")
-    alpaca_api_secret_key = os.getenv("APCA_API_SECRET_KEY")
-    alpaca_market_data_url = os.getenv("APCA_API_MARKET_DATA_URL")
+        # Set Alpaca API key and secret
+        alpaca_api_key = os.getenv("APCA_API_KEY_ID")
+        alpaca_api_secret_key = os.getenv("APCA_API_SECRET_KEY")
+        alpaca_market_data_url = os.getenv("APCA_API_MARKET_DATA_URL")
 
-    # Create the Alpaca API object
-    api = tradeapi.REST(
-        alpaca_api_key,
-        alpaca_api_secret_key,
-        alpaca_market_data_url,
-        api_version = "v2"
-    )
+        # Create the Alpaca API object
+        api = tradeapi.REST(
+            alpaca_api_key,
+            alpaca_api_secret_key,
+            alpaca_market_data_url,
+            api_version = "v2"
+        )
 
-    return api
+        return api
+
+    # Get Alpaca Markets stock data API
+    def get_stock_data(ticker='AAPL', tf='23Hour', st='2021-01-25', et='2022-05-13'):
+        '''Get Stock Data
+            Makes a call to Alpaca Markets for specified symbol(s) 'open', 'high', 'low',
+            'close', 'volume', 'vwap'. Initializes with Alpaca Markets.
+        Args:
+            ticker (list): List of ticker symbols to request data
+            tf (str): Timeframe for data values such as 59Min, 23Hour, 1Day, 3Month, 6Month
+            st (str): Start date for data range (must be in format 'YYYY-MM-DD')
+            et (str): End date for data range (must be in format 'YYYY-MM-DD')
+        Returns:
+            Dataframe of stock data.
+        '''
+        # Initialize connection to Alpaca Markets
+        api = Alpaca_Markets.initialize_alpaca_markets_connections()
+
+        # Request bars
+        result = api.get_bars(
+            symbol = ticker,
+            timeframe = tf,
+            start = st,
+            end = et
+            )
+            
+        result_df = result.df
+
+        return result_df
 
 # Connect to Polygon API
+class Polygon_Markets:
+    def __init__(self) -> None:
+        pass
 
-def initialize_polygon_connections():
-    '''Initialize Polygon Connections
-        Loads the security keys from .env file and creates the REST API connections to Polygon
-    Returns:
-        Polygon REST api connection
-    '''
-    
-    ### Load .env enviroment variables
-    load_dotenv()
-
-    # Set Polygon API key
-    polygon_api_key = os.getenv("POLYGON_API_KEY")
-
-    # Create the Alpaca API object
-    api = RESTClient(api_key=polygon_api_key)
-
-    return api
-
-def get_stock_data(ticker='AAPL', tf='23Hour', st='2021-01-25', et='2022-05-13'):
-    '''Get Stock Data
-        Makes a call to Alpaca Markets for specified symbol(s) 'open', 'high', 'low',
-        'close', 'volume', 'vwap'.
-    Args:
-        ticker (list): List of ticker symbols to request data (can provide one symbol)
-        tf (str): Timeframe for data values such as 59Min, 23Hour, 1Day, 3Month, 6Month
-        st (str): Start date for data range (must be in format 'YYYY-MM-DD')
-        et (str): End date for data range (must be in format 'YYYY-MM-DD')
-    Returns:
-        Dataframe of stock data.
-    '''
-    # Initialize connection to Alpaca Markets
-    api = initialize_alpaca_markets_connections()
-
-    # Request bars
-    result = api.get_bars(
-        symbol = ticker,
-        timeframe = tf,
-        start = st,
-        end = et
-        )
+    def initialize_polygon_connections():
+        '''Initialize Polygon Connections
+            Loads the security keys from .env file and creates the REST API connections to Polygon
+        Returns:
+            Polygon REST api connection
+        '''
         
-    result_df = result.df
+        ### Load .env enviroment variables
+        load_dotenv()
 
-    return result_df
+        # Set Polygon API key
+        polygon_api_key = os.getenv("POLYGON_API_KEY")
 
+        # Create the Alpaca API object
+        api = RESTClient(api_key=polygon_api_key)
 
+        return api
+    
+    # Get Polygon Markets stock data API
+    def get_stock_data(tkr='AAPL', mltplir=1, tspn='day', st='2021-01-25', et='2022-05-13', lmt=50000):
+        '''Get Stock Data
+            Makes a call to Polygon Markets for specified symbol(s) 'open', 'high', 'low',
+            'close', 'volume', 'vwap'. Initializes with Alpaca Markets.
+        Args:
+            tkr (str): Ticker symbol to request data (one symbol only)
+            mltplir (dec): The size of the timespan multiplier
+            tspn (str): Size of the time window such as second, minute, hour, day, week, month, quarter, year
+            st (str): Start date for data range (must be in format 'YYYY-MM-DD')
+            et (str): End date for data range (must be in format 'YYYY-MM-DD')
+            lmt (dec): Limits the number of base aggregates queried.
+        Returns:
+            Dataframe of stock data.
+        '''
+        # Initialize connection to Polygon Markets
+        api = Polygon_Markets.initialize_polygon_connections()
+
+        # Request bars
+        aggs = []
+
+        for a in api.list_aggs(ticker=tkr, multiplier=mltplir, timespan=tspn, from_=st, to=et, limit=lmt):
+            aggs.append(a)
+        
+        result_df = pd.DataFrame(aggs)
+
+        return result_df
 
 def calculate_volatility(df, symbols, start_date, end_date):
     '''Calculate Volatility
