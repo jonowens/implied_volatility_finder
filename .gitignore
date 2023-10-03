@@ -1,3 +1,8 @@
+.env
+keystore
+td_token_refresher.py
+token_path.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
