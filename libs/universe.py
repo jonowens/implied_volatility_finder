@@ -4,34 +4,6 @@ Beverage = ['CELH', 'DEO', 'FTXG', 'KDP', 'KO', 'MNST', 'PBJ', 'PEP', 'PRMW', 'S
 # Large companies
 Big_Guys = ['XOM', 'SHEL', 'VLO', 'CAH', 'HSIC', 'KO', 'AMC']
 
-# Average volatility and last close values were less than $20.00
-Avg_Volatility_Less_Than_Twenty = ['AAL', 'DISH', 'F', 'FTI', 'NOV', 'TRIP', 'UAA', 'UA']
-
-# Average volatility
-Average_Volatility = ['WDC', 'TGT', 'F', 'SLB', 'MGM', 'BHF', 'HAL', 'DXC', 'APTV',
-       'PVH', 'NOV', 'FCX', 'CF', 'ROST', 'ARNC', 'ILMN', 'MRO', 'WYNN',
-       'EXPE', 'HP', 'DVN', 'PYPL', 'FTI', 'NLSN', 'UAL', 'DISCK', 'FLR',
-       'EQT', 'AAL', 'DISH', 'TRIP', 'FB', 'UAA', 'ALGN', 'DISCA', 'MOS',
-       'APA', 'OXY', 'UA', 'RCL']
-
-# Most volatile companies
-Most_Volatility = ['NVDA', 'AMD', 'ALB', 'GPS', 'GT', 'FL', 'M', 'SIVB', 'XLNX',
- 'NFLX', 'CCL', 'RRC', 'NCLH', 'JWN', 'KSS', 'XL', 'HCP', 'NKTR', 'AMZN', 'LLL']
-
-# Filtered by over 10 Billion Market Cap, Last Sale <= 10.00, Last Sale >= 1.00, Country == United States
-US_cost_10_to_1_over_10billion_market_cap = ['CCL', 'NLY', 'SIRI', 'SNAP', 'VTRS']
-
-# Filtered by Last Sale <= 20.00, Last Sale >= 1.00, Country == United States, Volume >= 10000, Sector == Finance, Net Change > 0.00
-Finance_US_20_1_10000_positive = ['AAMC', 'AFB', 'AINV', 'AKIC', 'ASB', 'ASG', 'AWF', 'BCBP', 'BCSF', 'BFK', 'BFZ', 'BGH', 'BGT', 'BHK', 'BLE', 'BLW', 'BNY', 'BRW', 'BYM', 
-'BYTS', 'CEN', 'CEV', 'CFB', 'CGBD', 'CHI', 'CHY', 'CIF', 'CIK', 'CMU', 'COVA', 'CSWC', 'CXH', 'DMF', 'DMO', 'DNP', 'DPG', 'DSM', 'DSU', 'EDD', 'EDF', 'EDI', 'EFR', 'EFT', 
-'EIM', 'EMD', 'ERC', 'ETY', 'EVF', 'EVN', 'FAM', 'FGB', 'FIF', 'FINV', 'FLIC', 'FMN', 'FNB', 'FOF', 'FOR', 'FTF', 'FTHY', 'FUNC', 'GAB', 'GBAB', 'GCMG', 'GDO', 'GLAD', 
-'GLV', 'GOF', 'GUT', 'HBANP', 'HONE', 'HOUS', 'HPI', 'HSAQ', 'IDE', 'IFN', 'IGI', 'IGR', 'IIM', 'INSI', 'IPOD', 'IPOF', 'IQI', 'ISD', 'JEQ', 'JHS', 'JLS', 'JQC', 'JSD', 
-'KIII', 'KINS', 'KTF', 'LBC', 'LEGA', 'LEO', 'MACA', 'MAV', 'MCR', 'MFV', 'MGF', 'MGRD', 'MHI', 'MHN', 'MIY', 'MLTX', 'MMD', 'MQY', 'MRCC', 'MUC', 'MUE', 'MUI', 'MUJ', 
-'MVT', 'MYD', 'MYI', 'MYN', 'NAD', 'NBB', 'NBH', 'NBW', 'NCA', 'NCV', 'NEA', 'NECB', 'NFJ', 'NID', 'NIM', 'NKX', 'NMIH', 'NMRK', 'NMT', 'NMZ', 'NNY', 'NPV', 'NRK', 
-'NUO', 'NUW', 'NVG', 'NVSA', 'NXC', 'NXJ', 'NZF', 'OCCI', 'OFS', 'ONB', 'OZKAP', 'PAI', 'PCK', 'PCN', 'PCQ', 'PFDR', 'PFL', 'PFN', 'PGP', 'PML', 'PMX', 'PNF', 'PNNT', 
-'PPT', 'PRPB', 'PTY', 'PVBC', 'PWPPW', 'PZC', 'RCS', 'RELI', 'RFI', 'RQI', 'RVSB', 'SBI', 'SLRC', 'SVFA', 'TCPC', 'TCVA', 'TFSL', 'TIPT', 'TSI', 'TZPS', 'UBFO', 'VBF', 
-'VFL', 'VGI', 'VGM', 'VKI', 'VKQ', 'VLT', 'VMO', 'VPV', 'VTN', 'WEA', 'WIA', 'WIW', 'WNEB', 'WSBF', 'XFLT', 'ZTR']
-
 # SP500
 Universe = ['A', 'AAL', 'AAP', 'AAPL', 'ABBV', 'ABC', 'ABT', 'ACN', 'ADBE', 'ADI', 'ADM', 'ADP', 'ADS', 'ADSK', 'AEE', 'AEP', 
 'AES', 'AET', 'AFL', 'AGN', 'AIG', 'AIV', 'AIZ', 'AJG', 'AKAM', 'ALB', 'ALGN', 'ALK', 'ALL', 'ALLE', 'ALXN', 'AMAT', 'AMD', 'AME', 
